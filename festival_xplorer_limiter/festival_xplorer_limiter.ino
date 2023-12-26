@@ -383,17 +383,21 @@ void loop() {
 
   unsigned long currentTime = millis();
 
+  bool greenButtonPressed;
   if ((currentTime - lastGreenButtonChange) > debounceDelay) {
-    bool currentGreenButtonPressed = Xbox.getButtonPress(GreenButton);
-    if (greenButtonPressed != currentGreenButtonPressed) {
+    currentGreenButtonPressed = Xbox.getButtonPress(GreenButton);
+    if (lastGreenButtonPressed != greenButtonPressed) {
       greenButtonPressed = currentGreenButtonPressed;
 
       lastGreenButtonChange = currentTime;
     }
+  } else {
+    greenButtonPressed = lastGreenButtonPressed;
   }
 
+  bool redButtonPressed;
   if ((currentTime - lastRedButtonChange) > debounceDelay) {
-    bool currentRedButtonPressed = Xbox.getButtonPress(RedButton);
+    bool redButtonPressed = Xbox.getButtonPress(RedButton);
     if (redButtonPressed != currentRedButtonPressed) {
       redButtonPressed = currentRedButtonPressed;
 
