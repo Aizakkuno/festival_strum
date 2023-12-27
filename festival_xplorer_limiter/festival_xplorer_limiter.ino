@@ -42,15 +42,6 @@ bool lastStrumUpPressed = false;
 bool lastStrumDownPressed = false;
 bool lastSelectButtonPressed = false;
 
-bool greenButtonPressed = false;
-bool redButtonPressed = false;
-bool yellowButtonPressed = false;
-bool blueButtonPressed = false;
-bool orangeButtonPressed = false;
-bool strumUpPressed = false;
-bool strumDownPressed = false;
-bool selectButtonPressed = false;
-
 unsigned long lastGreenButtonChange = 0;
 unsigned long lastRedButtonChange = 0;
 unsigned long lastYellowButtonChange = 0;
@@ -69,6 +60,13 @@ char Key3 = 'j';
 char Key4 = 'k';
 char Key5 = 'l';
 char OverdriveKey = ' ';
+
+bool key1Pressed = false;
+bool key1Pressed = false;
+bool key3Pressed = false;
+bool key4Pressed = false;
+bool key5Pressed = false;
+bool overdriveKeyPressed = false;
 
 void setup() {
   Serial.begin(115200);
@@ -384,114 +382,146 @@ void loop() {
   unsigned long currentTime = millis();
 
   bool greenButtonPressed;
-  if ((currentTime - lastGreenButtonChange) > debounceDelay) {
-    currentGreenButtonPressed = Xbox.getButtonPress(GreenButton);
-    if (lastGreenButtonPressed != greenButtonPressed) {
-      greenButtonPressed = currentGreenButtonPressed;
 
-      lastGreenButtonChange = currentTime;
-    }
+  // if enough time has gone by to allow the button state to change and it has
+  // changed, update the state, otherwise assume its the last state
+  if (((currentTime - lastGreenButtonChange) > debounceDelay) &&
+      (lastGreenButtonPressed != Xbox.getButtonPress(GreenButton))) {
+
+    greenButtonPressed = !lastGreenButtonPressed;
+
+    lastGreenButtonChange = currentTime;
   } else {
     greenButtonPressed = lastGreenButtonPressed;
   }
 
   bool redButtonPressed;
-  if ((currentTime - lastRedButtonChange) > debounceDelay) {
-    bool redButtonPressed = Xbox.getButtonPress(RedButton);
-    if (redButtonPressed != currentRedButtonPressed) {
-      redButtonPressed = currentRedButtonPressed;
+  if (((currentTime - lastRedButtonChange) > debounceDelay) &&
+      (lastRedButtonPressed != Xbox.getButtonPress(RedButton))) {
 
-      lastRedButtonChange = currentTime;
-    }
+    redButtonPressed = !lastRedButtonPressed;
+
+    lastRedButtonChange = currentTime;
+  } else {
+    redButtonPressed = lastRedButtonPressed;
   }
 
-  if ((currentTime - lastYellowButtonChange) > debounceDelay) {
-    bool currentYellowButtonPressed = Xbox.getButtonPress(YellowButton);
-    if (yellowButtonPressed != currentYellowButtonPressed) {
-      yellowButtonPressed = currentYellowButtonPressed;
+  bool yellowButtonPressed;
+  if (((currentTime - lastYellowButtonChange) > debounceDelay) &&
+      (lastYellowButtonPressed != Xbox.getButtonPress(YellowButton))) {
 
-      lastYellowButtonChange = currentTime;
-    }
+    yellowButtonPressed = !lastYellowButtonPressed;
+
+    lastYellowButtonChange = currentTime;
+  } else {
+    yellowButtonPressed = lastYellowButtonPressed;
   }
 
-  if ((currentTime - lastBlueButtonChange) > debounceDelay) {
-    bool currentBlueButtonPressed = Xbox.getButtonPress(BlueButton);
-    if (blueButtonPressed != currentBlueButtonPressed) {
-      blueButtonPressed = currentBlueButtonPressed;
+  bool blueButtonPressed;
+  if (((currentTime - lastBlueButtonChange) > debounceDelay) &&
+      (lastBlueButtonPressed != Xbox.getButtonPress(BlueButton))) {
 
-      lastBlueButtonChange = currentTime;
-    }
+    blueButtonPressed = !lastBlueButtonPressed;
+
+    lastBlueButtonChange = currentTime;
+  } else {
+    blueButtonPressed = lastBlueButtonPressed;
   }
 
-  if ((currentTime - lastOrangeButtonChange) > debounceDelay) {
-    bool currentOrangeButtonPressed = Xbox.getButtonPress(OrangeButton);
-    if (orangeButtonPressed != currentOrangeButtonPressed) {
-      orangeButtonPressed = currentOrangeButtonPressed;
+  bool orangeButtonPressed;
+  if (((currentTime - lastOrangeButtonChange) > debounceDelay) &&
+      (lastOrangeButtonPressed != Xbox.getButtonPress(OrangeButton))) {
 
-      lastOrangeButtonChange = currentTime;
-    }
+    orangeButtonPressed = !lastOrangeButtonPressed;
+
+    lastOrangeButtonChange = currentTime;
+  } else {
+    orangeButtonPressed = lastOrangeButtonPressed;
   }
 
-  if ((currentTime - lastStrumUpChange) > debounceDelay) {
-    bool currentStrumUpPressed = Xbox.getButtonPress(StrumUp);
-    if (strumUpPressed != currentStrumUpPressed) {
-      strumUpPressed = currentStrumUpPressed;
+  bool strumUpPressed;
+  if (((currentTime - lastStrumUpChange) > debounceDelay) &&
+      (lastStrumUpPressed != Xbox.getButtonPress(StrumUp))) {
 
-      lastStrumUpChange = currentTime;
-    }
+    strumUpPressed = !lastStrumUpPressed;
+
+    lastStrumUpChange = currentTime;
+  } else {
+    strumUpPressed = lastStrumUpPressed;
   }
 
-  if ((currentTime - lastStrumDownChange) > debounceDelay) {
-    bool currentStrumDownPressed = Xbox.getButtonPress(StrumDown);
-    if (strumDownPressed != currentStrumDownPressed) {
-      strumDownPressed = currentStrumDownPressed;
+  bool strumDownPressed;
+  if (((currentTime - lastStrumDownChange) > debounceDelay) &&
+      (lastStrumDownPressed != Xbox.getButtonPress(StrumDown))) {
 
-      lastStrumDownChange = currentTime;
-    }
+    strumDownPressed = !lastStrumDownPressed;
+
+    lastStrumDownChange = currentTime;
+  } else {
+    strumDownPressed = lastStrumDownPressed;
   }
 
-  if ((currentTime - lastSelectButtonChange) > debounceDelay) {
-    bool currentSelectButtonPressed = Xbox.getButtonPress(SelectButton);
-    if (selectButtonPressed != currentSelectButtonPressed) {
-      selectButtonPressed = currentSelectButtonPressed;
+  bool selectButtonPressed;
+  if (((currentTime - lastSelectButtonChange) > debounceDelay) &&
+      (lastSelectButtonPressed != Xbox.getButtonPress(SelectButton))) {
 
-      lastSelectButtonChange = currentTime;
-    }
+    selectButtonPressed = !lastSelectButtonPressed;
+
+    lastSelectButtonChange = currentTime;
+  } else {
+    selectButtonPressed = lastSelectButtonPressed;
   }
 
-  if ((Xbox.getButtonPress(StrumUp) && !lastStrumUpPressed) ||
-      (Xbox.getButtonPress(StrumDown) && !lastStrumDownPressed)) {
+  if ((strumUpPressed && !lastStrumUpPressed) ||
+      (strumDownPressed && !lastStrumDownPressed)) {
 
-    if (Xbox.getButtonPress(StrumUp)) {
-      lastStrumUpPressed = true;
-    }
-
-    if (Xbox.getButtonPress(StrumDown)) {
-      lastStrumDownPressed = true;
-    }
-
-    if (Xbox.getButtonPress(GreenButton)) {
-      Keyboard.release(Key1);
+    if (greenButtonPressed) {
+      if (key1Pressed) {
+        Keyboard.release(Key1);
+      } else {
+        key1Pressed = true;
+      }
+      
       Keyboard.press(Key1);
     }
 
-    if (Xbox.getButtonPress(RedButton)) {
-      Keyboard.release(Key2);
+    if (redButtonPressed) {
+      if (key2Pressed) {
+        Keyboard.release(Key2);
+      } else {
+        key2Pressed = true;
+      }
+      
       Keyboard.press(Key2);
     }
 
-    if (Xbox.getButtonPress(YellowButton)) {
-      Keyboard.release(Key3);
+    if (yellowButtonPressed) {
+      if (key3Pressed) {
+        Keyboard.release(Key3);
+      } else {
+        key3Pressed = true;
+      }
+      
       Keyboard.press(Key3);
     }
 
-    if (Xbox.getButtonPress(BlueButton)) {
-      Keyboard.release(Key4);
+    if (blueButtonPressed) {
+      if (key4Pressed) {
+        Keyboard.release(Key4);
+      } else {
+        key4Pressed = true;
+      }
+      
       Keyboard.press(Key4);
     }
 
-    if (Xbox.getButtonPress(OrangeButton)) {
-      Keyboard.release(Key5);
+    if (orangeButtonPressed) {
+      if (key5Pressed) {
+        Keyboard.release(Key5);
+      } else {
+        key5Pressed = true;
+      }
+      
       Keyboard.press(Key5);
     }
   }
@@ -503,40 +533,58 @@ void loop() {
   //   Keyboard.release(Key5);
   // }
 
-  if (Xbox.getAnalogHat(TiltHat) > TiltThreshold || Xbox.getButtonPress(SelectButton)) {
+  if ((Xbox.getAnalogHat(TiltHat) > TiltThreshold || selectButtonPressed) &&
+      !overdriveKeyPressed) {
+
     Keyboard.press(OverdriveKey);
+
+    overdriveKeyPressed = true;
   } else {
     Keyboard.release(OverdriveKey);
+
+    overdriveKeyPressed = false;
   }
 
   // release keys not pressed anymore
   // keys should release when resetting during strumming or if theyre unpressed
-  if (!Xbox.getButtonPress(GreenButton)) {
+  if (!greenButtonPressed && key1Pressed) {
     Keyboard.release(Key1);
+
+    key1Pressed = false;
   }
 
-  if (!Xbox.getButtonPress(RedButton)) {
+  if (!redButtonPressed && key2Pressed) {
     Keyboard.release(Key2);
+
+    key2Pressed = true;
   }
 
-  if (!Xbox.getButtonPress(YellowButton)) {
+  if (!yellowButtonPressed && key3Pressed) {
     Keyboard.release(Key3);
+
+    key3Pressed = false;
   }
 
-  if (!Xbox.getButtonPress(BlueButton)) {
+  if (!blueButtonPressed && key4Pressed) {
     Keyboard.release(Key4);
+
+    key4Pressed = false;
   }
 
-  if (!Xbox.getButtonPress(OrangeButton)) {
+  if (!orangeButtonPressed && key5Pressed) {
     Keyboard.release(Key5);
+
+    key5Pressed = false;
   }
 
-  lastStrumUpPressed = Xbox.getButtonPress(StrumUp);
-  lastStrumDownPressed = Xbox.getButtonPress(StrumDown);
-
-  Serial.print(F("Loop ran at "));
-  Serial.print(millis());
-  Serial.println();
+  lastGreenButtonPressed = greenButtonPressed;
+  lastRedButtonPressed = redButtonPressed;
+  lastYellowButtonPressed = yellowButtonPressed;
+  lastBlueButtonPressed = blueButtonPressed;
+  lastOrangeButtonPressed = orangeButtonPressed;
+  lastStrumUpPressed = strumUpPressed;
+  lastStrumDownPressed = strumDownPressed;
+  lastSelectButtonPressed = selectButtonPressed;
 
   delay(1);
 }
