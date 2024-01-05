@@ -68,17 +68,11 @@ bool key4Pressed = false;
 bool key5Pressed = false;
 bool overdriveKeyPressed = false;
 
-unsigned long key1PressSchedule = 0;
-unsigned long key2PressSchedule = 0;
-unsigned long key3PressSchedule = 0;
-unsigned long key4PressSchedule = 0;
-unsigned long key5PressSchedule = 0;
-
-unsigned long key1ReleaseSchedule = 0;
-unsigned long key2ReleaseSchedule = 0;
-unsigned long key3ReleaseSchedule = 0;
-unsigned long key4ReleaseSchedule = 0;
-unsigned long key5ReleaseSchedule = 0;
+unsigned long key1Schedule = 0;
+unsigned long key2Schedule = 0;
+unsigned long key3Schedule = 0;
+unsigned long key4Schedule = 0;
+unsigned long key5Schedule = 0;
 
 uint8_t scheduleDelay = 20;
 
@@ -486,137 +480,8 @@ void loop() {
     selectButtonPressed = lastSelectButtonPressed;
   }
 
-  if ((strumUpPressed && !lastStrumUpPressed) ||
-      (strumDownPressed && !lastStrumDownPressed)) {
-
-    if (greenButtonPressed && key1PressSchedule == 0) {
-      if (key1Pressed) {
-        Keyboard.release(Key1);
-
-        key1Pressed = false;
-      }
-      
-      key1PressSchedule = currentTime + scheduleDelay;
-    }
-
-    if (redButtonPressed && key2PressSchedule == 0) {
-      if (key2Pressed) {
-        Keyboard.release(Key2);
-
-        key2Pressed = false;
-      }
-      
-      key2PressSchedule = currentTime + scheduleDelay;
-    }
-
-    if (yellowButtonPressed && key3PressSchedule == 0) {
-      if (key3Pressed) {
-        Keyboard.release(Key3);
-
-        key3Pressed = false;
-      }
-      
-      key3PressSchedule = currentTime + scheduleDelay;
-    }
-
-    if (blueButtonPressed && key4PressSchedule == 0) {
-      if (key4Pressed) {
-        Keyboard.release(Key4);
-
-        key4Pressed = false;
-      }
-      
-      key4PressSchedule = currentTime + scheduleDelay;
-    }
-
-    if (orangeButtonPressed && key5PressSchedule == 0) {
-      if (key5Pressed) {
-        Keyboard.release(Key5);
-
-        key5Pressed = false;
-      }
-      
-      key5PressSchedule = currentTime + scheduleDelay;
-    }
-  }
-
-  if (!greenButtonPressed && key1ReleaseSchedule != 0) {
-    key1ReleaseSchedule = currentTime + scheduleDelay;
-  }
-
-  if (!redButtonPressed && key2Pressed) {
-    key1ReleaseSchedule = currentTime + scheduleDelay;
-  }
-
-  if (!yellowButtonPressed && key3Pressed) {
-    Keyboard.release(Key3);
-
-    key3Pressed = false;
-  }
-
-  if (!blueButtonPressed && key4Pressed) {
-    Keyboard.release(Key4);
-
-    key4Pressed = false;
-  }
-
-  if (!orangeButtonPressed && key5Pressed) {
-    Keyboard.release(Key5);
-
-    key5Pressed = false;
-  }
-
-  // } else {
-  //   Keyboard.release(Key1);
-  //   Keyboard.release(Key2);
-  //   Keyboard.release(Key3);
-  //   Keyboard.release(Key4);
-  //   Keyboard.release(Key5);
-  // }
-
-  // if (((Xbox.getAnalogHat(TiltHat) > TiltThreshold) || selectButtonPressed) &&
-  //     !overdriveKeyPressed) {
-
-  //   Keyboard.press(OverdriveKey);
-
-  //   overdriveKeyPressed = true;
-  // } else {
-  //   Keyboard.release(OverdriveKey);
-
-  //   overdriveKeyPressed = false;
-  // }
-
-  // release keys not pressed anymore
-  // keys should release when resetting during strumming or if theyre unpressed
-
-  if (key1PressSchedule != 0 && currentTime >= key1PressSchedule) {
-    Keyboard.press(Key1);
-
-    key1PressSchedule = 0;
-  }
-
-  if (key2PressSchedule != 0 && currentTime >= key2PressSchedule) {
-    Keyboard.press(Key2);
-
-    key2PressSchedule = 0;
-  }
-
-  if (key3PressSchedule != 0 && currentTime >= key3PressSchedule) {
-    Keyboard.press(Key3);
-
-    key3PressSchedule = 0;
-  }
-
-  if (key4PressSchedule != 0 && currentTime >= key4PressSchedule) {
-    Keyboard.press(Key4);
-
-    key4PressSchedule = 0;
-  }
-
-  if (key5PressSchedule != 0 && currentTime >= key5PressSchedule) {
-    Keyboard.press(Key5);
-
-    key5PressSchedule = 0;
+  if ((strumUpPressed || strumDownPressed) {
+    if (greenButtonPressed && )
   }
 
   lastGreenButtonPressed = greenButtonPressed;
